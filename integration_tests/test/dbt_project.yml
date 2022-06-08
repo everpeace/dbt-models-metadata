@@ -1,0 +1,35 @@
+
+name: 'models_metadata_integration_tests'
+version: '1.0'
+config-version: 2
+
+profile: 'integration_tests'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+  - "dbt_modules"
+
+seeds:
+  +quote_columns: false
+
+on-run-end:
+  - '{{models_metadata.generate(results)}}'
+
+vars:
+  models_metadata:
+    table_name: dbt_models_metadata
+    additional_columns:
+    - name: 'git_repo'
+      dtype: 'text'
+      value: 'http://github.com/everpeace/dbt-models-metadata'
+    - name: 'git_commit_hash'
+      dtype: 'text'
+      value: '{{ env_var("GIT_COMMIT_HASH") }}'

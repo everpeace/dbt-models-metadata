@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: model_a
+    description: 'model a'
+  - name: model_b
+    description: 'model b'
