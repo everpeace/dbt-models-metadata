@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  integration-test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: dbt deps for test
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt deps -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/test"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+
+      - name: run the test (generated models' metadata table)
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt build -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/test"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+          GIT_COMMIT_HASH: ${{ env.GITHUB_SHA }}
+
+      - name: dbt deps for assert
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt deps -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/assert"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+      - name: assert the test (asserting generated models' metadata table)
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt build -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/assert"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
