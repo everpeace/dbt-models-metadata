@@ -46,7 +46,7 @@ You can add your *additional_columns* to the table which might contain supplemen
       revision: v0.0.1
     ```
 
-    For latest release, see https://github.com/calogica/dbt-models-metadata/releases
+    For latest release, see https://github.com/everpeace/dbt-models-metadata/releases
 
 2. please define [run-on-end] hook to generate model's metadata table
 
