@@ -15,6 +15,15 @@ integration_tests:
       dbname: postgres
       schema: integration_tests_postgres
       threads: 1
+    actions-postgres:
+      type: postgres
+      host: postgres
+      user: postgres
+      pass: password
+      port: 5432
+      dbname: postgres
+      schema: integration_tests_postgres
+      threads: 1
 
     # snowflake:
     #   type: snowflake
