@@ -43,7 +43,7 @@ You can add your *additional_columns* to the table which might contain supplemen
     # in your package.yml
     packages:
     - git: "git@github.com:everpeace/dbt-models-metadata.git"
-      revision: <for latest release, see https://github.com/everpeace/dbt-models-metadata/releases>
+      revision: v0.0.1
     ```
 
     For latest release, see https://github.com/calogica/dbt-models-metadata/releases
