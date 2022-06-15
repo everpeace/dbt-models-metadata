@@ -12,13 +12,13 @@
     {%- set existing_column_list = adapter.get_columns_in_relation(relation) -%}
     {%- set existing_columns = {} -%}
     {%- for col in existing_column_list -%}
-        {%- set _ = existing_columns.update({ col.name: {"column": col }}) -%}
+        {%- set _ = existing_columns.update({ col.name|upper: {"column": col }}) -%}
     {%- endfor %}
 
     {# detecting columns to add #}
     {%- set to_add = [] -%}
     {%- for n, c in metadata_columns.items() -%}
-        {%- if n not in existing_columns -%}
+        {%- if n|upper not in existing_columns -%}
             {%- set _ = to_add.append(c["column"]) -%}
         {%- endif -%}
     {%- endfor -%}
@@ -27,7 +27,7 @@
     {%- set to_remove = [] -%}
     {%- if models_metadata.config__column_drop(cfg) -%}
         {%- for n, c in existing_columns.items() -%}
-            {%- if n not in metadata_columns -%}
+            {%- if n|upper not in metadata_columns -%}
                 {%- set _ = to_remove.append(c["column"]) -%}
             {%- endif -%}
         {%- endfor -%}
@@ -50,7 +50,7 @@
     {%- set to_alter = [] -%}
     {%- for n1, c1 in existing_columns.items() %}
         {%- for n2, c2 in metadata_columns.items() %}
-            {%- if n1 == n2 and c1.data_type != c2.data_type -%}
+            {%- if n1|upper == n2|upper and c1.data_type|upper != c2.data_type|upper -%}
                 {%- set _ = to_alter.append({"from": c1["column"], "to": c2["column"]}) -%}
             {%- endif -%}
         {%- endfor -%}
