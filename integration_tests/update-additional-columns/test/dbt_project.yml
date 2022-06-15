@@ -5,11 +5,8 @@ config-version: 2
 
 profile: 'integration_tests'
 
-model-paths: ["models"]
-analysis-paths: ["analyses"]
-test-paths: ["tests"]
-seed-paths: ["seeds"]
-macro-paths: ["macros"]
+model-paths: ["../../insert-and-update/test/models"]
+seed-paths: ["../../insert-and-update/test/seeds"]
 
 target-path: "target"
 clean-targets:
@@ -23,13 +20,16 @@ seeds:
 on-run-end:
   - '{{models_metadata.generate(results)}}'
 
+## This project must run after running ../../insert-and-update project
 vars:
   models_metadata:
     table_name: dbt_models_metadata
+    column_drop: true
     additional_columns:
     - name: 'git_repo'
-      dtype: 'text'
+      dtype: 'varchar'
+      char_size: 256
       value: 'http://github.com/everpeace/dbt-models-metadata'
-    - name: 'git_commit_hash'
+    - name: 'git_commit_hash_2'
       dtype: 'text'
       value: '{{ env_var("GIT_COMMIT_HASH") }}'

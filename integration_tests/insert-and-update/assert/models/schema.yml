@@ -1,0 +1,76 @@
+
+version: 2
+
+sources:
+  - name: test_schema
+    schema: "{{ target.schema }}"
+    tables:
+      - name: dbt_models_metadata
+
+models:
+  - name: verify
+    description: "defined for testing dbt_models_metadata"
+    tests:
+      - dbt_expectations.expect_table_column_count_to_equal:
+          value: 17
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 2
+          max_value: 2
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - database
+            - schema
+            - '"table"'
+    columns:
+      - name: unique_id
+        tests:
+          - not_null
+          - unique
+      - name: database
+        tests:
+          - not_null
+      - name: schema
+        tests:
+          - not_null
+      - name: '"table"'
+        tests:
+          - not_null
+      - name: description
+        tests:
+          - not_null
+      - name: dbt_version
+        tests:
+          - not_null
+      - name: invocation_id
+        tests:
+          - not_null
+      - name: node
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - not_null
+      - name: thread_id
+        tests:
+          - not_null
+      - name: execution_time
+        tests:
+          - not_null
+      - name: timing
+        tests:
+          - not_null
+      - name: adapter_response
+        tests:
+          - not_null
+      - name: message
+        tests:
+          - not_null
+      - name: updated_at
+        tests:
+          - not_null
+      - name: git_repo
+        tests:
+          - not_null
+      - name: git_commit_hash
+        tests:
+          - not_null
