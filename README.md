@@ -50,8 +50,9 @@ Feel free to open issues or PRs if you wanted to support more adapters!
     ```yaml
     # in your package.yml
     packages:
-    - git: "git@github.com:everpeace/dbt-models-metadata.git"
-      revision: v0.0.1
+      - git: everpeace/dbt-models-metadata
+        version: [">=0.1.0", "<0.2.0"]
+        # <see https://github.com/everpeace/dbt-models-metadata/latest> for the latest version tag
     ```
 
     For latest release, see https://github.com/everpeace/dbt-models-metadata/releases
