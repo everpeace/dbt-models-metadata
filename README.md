@@ -5,6 +5,7 @@ Extension package for [dbt][dbt] to build a metadata table for your dbt models a
 ### Table of Contents <!-- omit in toc -->
 
 - [Generated Models' Metadata Table](#generated-models-metadata-table)
+- [Supported Adapters](#supported-adapters)
 - [Install](#install)
 - [Variables](#variables)
 - [How It Works At a Glance](#how-it-works-at-a-glance)
@@ -34,6 +35,13 @@ The models' metadata table is based on the information in [Results][results] obj
 | updated_at       | timestamp at which the row updated                                                                                                                        |
 
 You can add your *additional_columns* to the table which might contain supplemental information (e.g. git information that generates the models).  See [Variables](#variables) section for details.
+
+## Supported Adapters
+
+- [postgres](https://pypi.org/project/dbt-postgres/)
+- [snowflake](https://pypi.org/project/dbt-snowflake/)
+
+Feel free to open issues or PRs if you wanted to support more adapters!
 
 ## Install
 
