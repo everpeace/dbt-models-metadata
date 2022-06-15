@@ -62,7 +62,7 @@ Feel free to open issues or PRs if you wanted to support more adapters!
     ```yaml
     # in your dbt_project.yml
     on-run-end:
-    - '{{models_metadata.generate(results)}}'
+    - '{{dbt_models_metadata.generate(results)}}'
     ```
 
 ## Variables
@@ -71,7 +71,7 @@ You can configure this package via [`var`][var] in your `dbt_project.yml`
 
 ```yaml
 vars:
-  models_metadata:
+  dbt_models_metadata:
     # table_name specifies metadata table name
     table_name: dbt_models_metadata
     # schema specifies the schema in which metadata table is created

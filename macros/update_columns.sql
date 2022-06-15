@@ -1,10 +1,10 @@
 {% macro update_columns(cfg) %}
-    {%- set schema_name = models_metadata.config__get_schema_name(cfg) -%}
-    {%- set table_name = models_metadata.config__get_table_name(cfg) -%}
+    {%- set schema_name = dbt_models_metadata.config__get_schema_name(cfg) -%}
+    {%- set table_name = dbt_models_metadata.config__get_table_name(cfg) -%}
     {%- set relation = api.Relation.create(
         database=target.database, schema=schema_name, identifier=table_name, type='table'
     )-%}
-    {%- set metadata_columns = models_metadata.metadata_columns(cfg) -%}
+    {%- set metadata_columns = dbt_models_metadata.metadata_columns(cfg) -%}
 
     {# 
        add/remove/alter columns
@@ -25,7 +25,7 @@
 
     {# detecting columns to remove #}
     {%- set to_remove = [] -%}
-    {%- if models_metadata.config__column_drop(cfg) -%}
+    {%- if dbt_models_metadata.config__column_drop(cfg) -%}
         {%- for n, c in existing_columns.items() -%}
             {%- if n|lower not in metadata_columns -%}
                 {%- set _ = to_remove.append(c["column"]) -%}
