@@ -44,3 +44,7 @@
 {% macro default__model_result_exists(cfg, column_values) %}
     {{ exceptions.raise_compiler_error("Creating dbt_models_metadata is not implemented for the default adapter") }}
 {% endmacro %}
+
+{%- macro default__to_literal(v) -%}
+    {{ exceptions.raise_compiler_error("Creating dbt_models_metadata is not implemented for the default adapter") }}
+{%- endmacro -%}

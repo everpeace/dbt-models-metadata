@@ -1,3 +1,3 @@
-{%- macro to_text_literal(v) -%}
+{%- macro postgres__to_literal(v) -%}
     {{- return("'" ~ v|as_text ~ "'") -}}
 {%- endmacro -%}
