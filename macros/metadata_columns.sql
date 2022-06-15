@@ -3,15 +3,15 @@
     {% set node = {} %}
 
     {%- if result is not none -%}
-        {% set timing = models_metadata.convert_timing_to_dict(result.timing) %}
-        {% set node = models_metadata.convert_node_to_dict(result.node) %}
+        {% set timing = dbt_models_metadata.convert_timing_to_dict(result.timing) %}
+        {% set node = dbt_models_metadata.convert_node_to_dict(result.node) %}
     {% endif %}
 
     {# 
         Column definition of models_metadata_columns
         with values if result was passed
     #}
-    {%- set column_types_mapping = adapter.dispatch('column_types_mapping', 'models_metadata')() -%}
+    {%- set column_types_mapping = adapter.dispatch('column_types_mapping', 'dbt_models_metadata')() -%}
     {%- set column_list = [
         {
             "column": api.Column('unique_id', column_types_mapping['text']),
@@ -91,7 +91,7 @@
 
     {# append user-defined additional_columns #}
     {%- set _ = columns.update(
-        models_metadata.config__get_additional_columns(cfg),
+        dbt_models_metadata.config__get_additional_columns(cfg),
     )-%}
 
     {{ return(columns) }}

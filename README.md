@@ -50,8 +50,9 @@ Feel free to open issues or PRs if you wanted to support more adapters!
     ```yaml
     # in your package.yml
     packages:
-    - git: "git@github.com:everpeace/dbt-models-metadata.git"
-      revision: v0.0.1
+      - git: everpeace/dbt-models-metadata
+        version: [">=0.1.0", "<0.2.0"]
+        # <see https://github.com/everpeace/dbt-models-metadata/latest> for the latest version tag
     ```
 
     For latest release, see https://github.com/everpeace/dbt-models-metadata/releases
@@ -61,7 +62,7 @@ Feel free to open issues or PRs if you wanted to support more adapters!
     ```yaml
     # in your dbt_project.yml
     on-run-end:
-    - '{{models_metadata.generate(results)}}'
+    - '{{dbt_models_metadata.generate(results)}}'
     ```
 
 ## Variables
@@ -70,7 +71,7 @@ You can configure this package via [`var`][var] in your `dbt_project.yml`
 
 ```yaml
 vars:
-  models_metadata:
+  dbt_models_metadata:
     # table_name specifies metadata table name
     table_name: dbt_models_metadata
     # schema specifies the schema in which metadata table is created

@@ -18,11 +18,11 @@ seeds:
   +quote_columns: false
 
 on-run-end:
-  - '{{models_metadata.generate(results)}}'
+  - '{{dbt_models_metadata.generate(results)}}'
 
 ## This project must run after running ../../insert-and-update project
 vars:
-  models_metadata:
+  dbt_models_metadata:
     table_name: dbt_models_metadata
     column_drop: true
     additional_columns:

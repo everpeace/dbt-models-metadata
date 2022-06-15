@@ -1,4 +1,4 @@
-name: 'models_metadata'
+name: 'dbt_models_metadata'
 version: '0.1.0'
 config-version: 2
 require-dbt-version: [">=1.0.0", "<2.0.0"]

@@ -18,10 +18,10 @@ seeds:
   +quote_columns: false
 
 on-run-end:
-  - '{{models_metadata.generate(results)}}'
+  - '{{dbt_models_metadata.generate(results)}}'
 
 vars:
-  models_metadata:
+  dbt_models_metadata:
     table_name: dbt_models_metadata
     additional_columns:
     - name: 'git_repo'

@@ -1,6 +1,6 @@
 {% macro create_table_if_not_exists(cfg) %}
-    {%- set schema_name = models_metadata.config__get_schema_name(cfg) -%}
-    {%- set table_name = models_metadata.config__get_table_name(cfg) -%}
+    {%- set schema_name = dbt_models_metadata.config__get_schema_name(cfg) -%}
+    {%- set table_name = dbt_models_metadata.config__get_table_name(cfg) -%}
 
     {%- do adapter.create_schema(api.Relation.create(
         target=database, 
@@ -17,7 +17,7 @@
             TODO: how to create table via adapter (i.e. in adapter agnostic way)??
         #}
         {{log("[dbt-models-metadata] Creating table: "~adapter.quote(schema_name~"."~table_name), info=true)}}
-        {%- set metadata_columns = models_metadata.metadata_columns(cfg) -%}
+        {%- set metadata_columns = dbt_models_metadata.metadata_columns(cfg) -%}
         {%- set query -%}
             CREATE TABLE {{schema_name}}.{{table_name}}(
             {% for cv in metadata_columns.values() -%}
