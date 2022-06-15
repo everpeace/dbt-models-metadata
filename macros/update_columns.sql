@@ -27,7 +27,7 @@
     {%- set to_remove = [] -%}
     {%- if models_metadata.config__column_drop(cfg) -%}
         {%- for n, c in existing_columns.items() -%}
-            {%- if n|upper not in metadata_columns -%}
+            {%- if n|lower not in metadata_columns -%}
                 {%- set _ = to_remove.append(c["column"]) -%}
             {%- endif -%}
         {%- endfor -%}
@@ -50,7 +50,7 @@
     {%- set to_alter = [] -%}
     {%- for n1, c1 in existing_columns.items() %}
         {%- for n2, c2 in metadata_columns.items() %}
-            {%- if n1|upper == n2|upper and c1.data_type|upper != c2.data_type|upper -%}
+            {%- if n1|upper == n2|upper and c1["column"].data_type|upper != c2["column"].data_type|upper -%}
                 {%- set _ = to_alter.append({"from": c1["column"], "to": c2["column"]}) -%}
             {%- endif -%}
         {%- endfor -%}
