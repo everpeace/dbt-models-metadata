@@ -18,7 +18,7 @@
         info=true,
     ) }}
     {%- for model_result in model_results -%}
-        {%- set column_values = adapter.dispatch('metadata_columns', 'models_metadata')(cfg, model_result, now) -%}
+        {%- set column_values = models_metadata.metadata_columns(cfg, model_result, now) -%}
 
         {%- if adapter.dispatch('model_result_exists', 'models_metadata')(cfg, column_values) -%}
 

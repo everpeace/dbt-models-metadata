@@ -4,7 +4,7 @@
     {%- set relation = api.Relation.create(
         database=target.database, schema=schema_name, identifier=table_name, type='table'
     )-%}
-    {%- set metadata_columns = adapter.dispatch('metadata_columns', 'models_metadata')(cfg) -%}
+    {%- set metadata_columns = models_metadata.metadata_columns(cfg) -%}
 
     {# 
        add/remove/alter columns
