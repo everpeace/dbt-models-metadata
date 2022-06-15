@@ -2,7 +2,7 @@
     {{return({
         'text': 'text',
         'json': 'variant',
-        'float': 'double precision',
+        'float': 'float',
         'timestamp': 'timestamp_tz'
     })}}
 {% endmacro %}
