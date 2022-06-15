@@ -13,7 +13,7 @@ integration_tests:
       pass: password
       port: 5432
       dbname: postgres
-      schema: integration_tests_postgres
+      schema: integration_tests
       threads: 1
     actions-postgres:
       type: postgres
@@ -22,7 +22,7 @@ integration_tests:
       pass: password
       port: 5432
       dbname: postgres
-      schema: integration_tests_postgres
+      schema: integration_tests
       threads: 1
 
     snowflake:
@@ -33,5 +33,5 @@ integration_tests:
       role: "{{ env_var('SNOWFLAKE_TEST_ROLE') }}"
       database: "{{ env_var('SNOWFLAKE_TEST_DATABASE') }}"
       warehouse: "{{ env_var('SNOWFLAKE_TEST_WAREHOUSE') }}"
-      schema: integration_tests_snowflake
+      schema: integration_tests
       threads: 4
