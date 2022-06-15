@@ -13,6 +13,9 @@ models:
     tests:
       - dbt_expectations.expect_table_column_count_to_equal:
           value: 17
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 2
+          max_value: 2
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - database
@@ -68,6 +71,6 @@ models:
       - name: git_repo
         tests:
           - not_null
-      - name: git_commit_hash
+      - name: git_commit_hash_2
         tests:
           - not_null

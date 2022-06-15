@@ -16,3 +16,6 @@ clean-targets:
   - "target"
   - "dbt_packages"
   - "dbt_modules"
+
+on-run-end:
+  - 'drop view integration_tests_postgres.verify;'

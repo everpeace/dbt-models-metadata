@@ -3,6 +3,6 @@
         'text': 'text',
         'json': 'jsonb',
         'float': 'double precision',
-        'timestamp': 'timestamptz'
+        'timestamp': 'timestamp with time zone'
     })}}
 {% endmacro %}
