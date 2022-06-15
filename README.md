@@ -97,13 +97,13 @@ vars:
 
 ## How It Works At a Glance
 
-To understand how dbt-models-metadata package works, inspecting `integration_test` directory is handy.
+To understand how dbt-models-metadata package works, inspecting `integration_test/insert-and-update/test` directory is handy.
 
 ```shell
-$ cd integration_tests/test
+$ cd integration_tests/insert-and-update/test
 
 # specify sample profile directory
-$ export DBT_PROFILES_DIR=$(pwd)/../.profiles
+$ export DBT_PROFILES_DIR=$(pwd)/../../.profiles
 
 # prepare sample postgres server
 $  docker run --name dbt-models-metadata-postgres \
@@ -116,20 +116,24 @@ $  docker run --name dbt-models-metadata-postgres \
 #   note that you would need GIT_COMMIT_HASH environment variable
 #   because the sample project has 'git_commit_hash' additional columns 
 #   which refers to the environment variable
+#   
+#   you will see:
+#     - a few seeds and models are created, and
+#     - models' metadata table are also created in on-run-end hook.
 $ dbt deps
 $ GIT_COMMIT_HASH=$(git rev-parse head) dbt build
 ...
 11:02:37  Running 1 on-run-end hook
-11:23:05  [dbt-models-metadata] Creating table: "integration_tests_postgres.dbt_models_metadata"
+11:23:05  [dbt-models-metadata] Creating table: "integration_tests.dbt_models_metadata"
 11:23:05  [dbt-models-metadata] Adding columns: [<Column unique_id (text)>, <Column database (text)>, <Column schema (text)>, <Column "table" (text)>, <Column description (text)>, <Column dbt_version (text)>, <Column invocation_id (text)>, <Column node (jsonb)>, <Column status (text)>, <Column thread_id (text)>, <Column execution_time (double precision)>, <Column timing (jsonb)>, <Column adapter_response (jsonb)>, <Column message (text)>, <Column updated_at (timestamptz)>, <Column git_repo (text)>, <Column git_commit_hash (text)>]
 11:23:05  [dbt-models-metadata] Removing columns: []
-11:02:37  [dbt-models-metadata] 2 rows will be affected in "integration_tests_postgres.dbt_models_metadata"
+11:02:37  [dbt-models-metadata] 2 rows will be affected in "integration_tests.dbt_models_metadata"
 11:02:37  1 of 1 START hook: models_metadata_integration_tests.on-run-end.0 .............. [RUN]
 11:02:37  1 of 1 OK hook: models_metadata_integration_tests.on-run-end.0 ................. [COMMIT in 0.00s]
 
 # see the metadata table
 $ cat <<EOT | PGPASSWORD=password psql -h localhost -U postgres
-    select * from integration_tests_postgres.dbt_models_metadata;
+    select * from integration_tests.dbt_models_metadata;
 EOT
 # ...you'll see the table contents...
 
