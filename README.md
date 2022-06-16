@@ -1,3 +1,7 @@
+[![dbt-hub](https://img.shields.io/badge/dbt--hub-dbt--models--metadata-brightgreen)](https://hub.getdbt.com/everpeace/dbt_models_metadata/latest/)
+[![Release](https://img.shields.io/github/v/release/everpeace/dbt-models-metadata?include_prereleases&sort=semver)](https://github.com/everpeace/dbt-models-metadata/releases)
+[![Integration Tests](https://github.com/everpeace/dbt-models-metadata/actions/workflows/ci.yml/badge.svg)](https://github.com/everpeace/dbt-models-metadata/actions)
+[![License](https://img.shields.io/github/license/everpeace/dbt-models-metadata)](#license)
 # dbt-models-metadata <!-- omit in toc -->
 
 Extension package for [dbt][dbt] to build a metadata table for your dbt models along side your models.
@@ -50,7 +54,7 @@ Feel free to open issues or PRs if you wanted to support more adapters!
     ```yaml
     # in your package.yml
     packages:
-      - git: everpeace/dbt-models-metadata
+      - package: everpeace/dbt_models_metadata
         version: [">=0.1.0", "<0.2.0"]
         # <see https://github.com/everpeace/dbt-models-metadata/latest> for the latest version tag
     ```
