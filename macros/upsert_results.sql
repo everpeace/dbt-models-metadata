@@ -20,13 +20,21 @@
     {%- for model_result in model_results -%}
         {%- set column_values = dbt_models_metadata.metadata_columns(cfg, model_result, now) -%}
 
+        {# filter out NULL so we dont override things during update #}
+        {% set filtered_columns_values = {} %}
+        {%- for key, item in column_values.items() -%}
+            {%- if item["value"] is not none -%}
+                {%- do filtered_columns_values.update({key: item}) -%}
+            {%- endif -%}
+        {%- endfor -%}
+
         {%- if adapter.dispatch('model_result_exists', 'dbt_models_metadata')(cfg, column_values) -%}
 
-            {{ adapter.dispatch('insert_model_result', 'dbt_models_metadata')(cfg, column_values) }}
+            {{ adapter.dispatch('insert_model_result', 'dbt_models_metadata')(cfg, filtered_columns_values) }}
 
         {%- else -%}
 
-            {{ adapter.dispatch('update_model_result', 'dbt_models_metadata')(cfg, column_values) }}
+            {{ adapter.dispatch('update_model_result', 'dbt_models_metadata')(cfg, filtered_columns_values) }}
 
         {%- endif -%}
     {%- endfor -%}
