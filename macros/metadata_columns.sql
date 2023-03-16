@@ -6,8 +6,6 @@
         {% set timing = dbt_models_metadata.convert_timing_to_dict(result.timing) %}
         {% if not skip_node %}
             {% set node = dbt_models_metadata.convert_node_to_dict(result.node) %}
-        {% else %}
-            {% set node = {} %}
         {% endif %}
     {% endif %}
 
