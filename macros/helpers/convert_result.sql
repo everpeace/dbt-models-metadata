@@ -1,7 +1,6 @@
 {% macro convert_timing_to_dict(timing) %}
     {#
         Transform timing in result to dict so that it can work with "|tojson" filter 
-            TODO: how to make "|tojson" work??
     #}
     {%- set timing_dict = [] -%}
     {%- for tinfo in timing -%}
@@ -17,15 +16,8 @@
 {% macro convert_node_to_dict(node) %}
     {#
         Transform node in result to dict so that it can work with "|tojson" filter 
-            TODO: how to make "|tojson" work??
     #}
     
-    {# transform columns in result to list so that it can work with "|tojson" filter #}
-    {%- set column_names = [] -%}
-    {%- for k, v in node.columns.items() -%}
-        {%- do column_names.append(k) -%}
-    {%- endfor -%}
-
     {{return({
         "raw_sql": node.raw_sql,
         "compiled": node.compiled,
@@ -72,7 +64,7 @@
         },
         "nodes": node.nodes if node.nodes else none,
         "description": node.description,
-        "columns": column_names,
+        "columns": node.columns,
         "meta": node.meta,
         "docs": {
             "show": node.docs.show,
