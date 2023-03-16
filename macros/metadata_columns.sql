@@ -45,7 +45,7 @@
         },
         {
             "column": api.Column('node', column_types_mapping['json']),
-            "value": node|tojson(''),
+            "value": node|tojson,
         },
         {
             "column": api.Column('status', column_types_mapping['text']),
@@ -57,15 +57,15 @@
         },
         {
             "column": api.Column('execution_time', column_types_mapping['float']),
-            "value": result.execution_time|tojson('') if result is not none,
+            "value": result.execution_time|tojson if result is not none,
         },
         {
             "column": api.Column('timing', column_types_mapping['json']),
-            "value": timing|tojson('') if result is not none,
+            "value": timing|tojson if result is not none,
         },
         {
             "column": api.Column('adapter_response', column_types_mapping['json']),
-            "value": result.adapter_response|tojson('') if result is not none,
+            "value": result.adapter_response|tojson if result is not none,
         },
         {
             "column": api.Column('message', column_types_mapping['text']),
