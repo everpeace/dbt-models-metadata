@@ -1,4 +1,4 @@
-{% macro generate(results) -%}
+{% macro generate(results, skip_node=False) -%}
     {#
          load configuration from var
     #}
@@ -21,7 +21,7 @@
         upsert results
             NOTE: this package only focues on model results
     #}
-    {{ dbt_models_metadata.upsert_results(cfg, results) }}
+    {{ dbt_models_metadata.upsert_results(cfg, results, skip_node) }}
     
     COMMIT;
 

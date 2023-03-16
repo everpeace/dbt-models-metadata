@@ -1,10 +1,14 @@
-{% macro metadata_columns(cfg, result=none, now=none) %}
+{% macro metadata_columns(cfg, result=none, now=none, skip_node=False) %}
     {% set timing = [] %}
     {% set node = {} %}
 
     {%- if result is not none -%}
         {% set timing = dbt_models_metadata.convert_timing_to_dict(result.timing) %}
-        {% set node = dbt_models_metadata.convert_node_to_dict(result.node) %}
+        {% if not skip_node %}
+            {% set node = dbt_models_metadata.convert_node_to_dict(result.node) %}
+        {% else %}
+            {% set node = {} %}
+        {% endif %}
     {% endif %}
 
     {# 
