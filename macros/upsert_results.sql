@@ -1,4 +1,4 @@
-{% macro upsert_results(cfg, results) %}
+{% macro upsert_results(cfg, results, skip_node=False) %}
     {%- set now = modules.datetime.datetime.now(modules.pytz.utc) -%}
     {%- set schema_name = dbt_models_metadata.config__get_schema_name(cfg) -%}
     {%- set table_name = dbt_models_metadata.config__get_table_name(cfg) -%}
@@ -18,15 +18,23 @@
         info=true,
     ) }}
     {%- for model_result in model_results -%}
-        {%- set column_values = dbt_models_metadata.metadata_columns(cfg, model_result, now) -%}
+        {%- set column_values = dbt_models_metadata.metadata_columns(cfg, model_result, now, skip_node) -%}
+
+        {# filter out NULL so we dont override things during update #}
+        {% set filtered_columns_values = {} %}
+        {%- for key, item in column_values.items() -%}
+            {%- if item["value"] is not none -%}
+                {%- do filtered_columns_values.update({key: item}) -%}
+            {%- endif -%}
+        {%- endfor -%}
 
         {%- if adapter.dispatch('model_result_exists', 'dbt_models_metadata')(cfg, column_values) -%}
 
-            {{ adapter.dispatch('insert_model_result', 'dbt_models_metadata')(cfg, column_values) }}
+            {{ adapter.dispatch('insert_model_result', 'dbt_models_metadata')(cfg, filtered_columns_values) }}
 
         {%- else -%}
 
-            {{ adapter.dispatch('update_model_result', 'dbt_models_metadata')(cfg, column_values) }}
+            {{ adapter.dispatch('update_model_result', 'dbt_models_metadata')(cfg, filtered_columns_values) }}
 
         {%- endif -%}
     {%- endfor -%}

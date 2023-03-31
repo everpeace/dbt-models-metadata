@@ -1,7 +1,6 @@
 {% macro convert_timing_to_dict(timing) %}
     {#
         Transform timing in result to dict so that it can work with "|tojson" filter 
-            TODO: how to make "|tojson" work??
     #}
     {%- set timing_dict = [] -%}
     {%- for tinfo in timing -%}
@@ -17,8 +16,8 @@
 {% macro convert_node_to_dict(node) %}
     {#
         Transform node in result to dict so that it can work with "|tojson" filter 
-            TODO: how to make "|tojson" work??
     #}
+    
     {{return({
         "raw_sql": node.raw_sql,
         "compiled": node.compiled,
@@ -83,3 +82,4 @@
         "relation_name": node.relation_name,
     })}}
 {% endmacro %}
+

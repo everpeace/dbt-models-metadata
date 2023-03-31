@@ -1,10 +1,12 @@
-{% macro metadata_columns(cfg, result=none, now=none) %}
+{% macro metadata_columns(cfg, result=none, now=none, skip_node=False) %}
     {% set timing = [] %}
     {% set node = {} %}
 
     {%- if result is not none -%}
         {% set timing = dbt_models_metadata.convert_timing_to_dict(result.timing) %}
-        {% set node = dbt_models_metadata.convert_node_to_dict(result.node) %}
+        {% if not skip_node %}
+            {% set node = dbt_models_metadata.convert_node_to_dict(result.node) %}
+        {% endif %}
     {% endif %}
 
     {# 
@@ -32,7 +34,7 @@
         },
         {
             "column": api.Column('description', column_types_mapping['text']),
-            "value": result.node.description if result is not none,
+            "value": result.node.description|replace("'", "\"") if result is not none,
         },
 
         {
@@ -75,6 +77,14 @@
             "column": api.Column('updated_at', column_types_mapping['timestamp']),
             "value": now.isoformat() if now is not none,
         },
+        {
+            "column": api.Column('last_success_at', column_types_mapping['timestamp']),
+            "value": now.isoformat() if now is not none and result is not none and result.status == 'success' else None,
+        },
+        {
+            "column": api.Column('last_error_at', column_types_mapping['timestamp']),
+            "value": now.isoformat() if now is not none and result is not none and result.status == 'error' else None,
+        },
     ]-%}
 
     {# 
@@ -82,7 +92,7 @@
             to make column existence check easier in later process
     #}
     {%- set columns = {} -%}
-    {%- for item in  column_list -%}
+    {%- for item in column_list -%}
         {%- set key = item["column_name"] if "column_name" in item else item["column"].name -%}
         {%- do columns.update({
             key: item

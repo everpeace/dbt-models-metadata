@@ -19,7 +19,7 @@
         {{log("[dbt-models-metadata] Creating table: "~adapter.quote(schema_name~"."~table_name), info=true)}}
         {%- set metadata_columns = dbt_models_metadata.metadata_columns(cfg) -%}
         {%- set query -%}
-            CREATE TABLE {{schema_name}}.{{table_name}}(
+            CREATE TABLE "{{schema_name}}".{{table_name}}(
             {% for cv in metadata_columns.values() -%}
                {{ cv["column"].name }} {{ cv["column"].data_type }}{{ ',' if not loop.last }}
             {% endfor -%}
